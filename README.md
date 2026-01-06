@@ -18,4 +18,4 @@ This tool generates a **Dubious Performance Script (.dps)** from a video file. I
 2. Select **Dubious Processing Unit**.
 3. Enter the Direct URL to a video file.
 4. Download the artifact (`.dps` file) when complete.
-5. 
+
