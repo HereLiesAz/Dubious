@@ -10,6 +10,6 @@ export default defineConfig({
       $lib: path.resolve('./Src/lib'),
     },
   },
-  // REPLACE '/dubious/' with '/<your-repo-name>/'
-  base: '/dubious/',
+  // Per instruction: set base to root '/'
+  base: '/',
 })
