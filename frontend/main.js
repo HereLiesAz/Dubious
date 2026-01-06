@@ -1,5 +1,5 @@
 import './app.css'
-import App from './App.svelte'
+import App from './Src/app.svelte'
 import { mount } from 'svelte'
 
 // In Svelte 5, we mount, we don't 'new App({...})'. 
