@@ -1,5 +1,4 @@
-# Dubious
-### Censorship for Families 
+# Dubious - Censorship for Families 
 
 ## Overview
 This tool generates a **Dubious Performance Script (.dps)** from a video file. It uses OpenAI's Whisper to transcribe the audio, analyzes the content for "Sin" (Profanity, Violence, Sexual content), and generates a sanitized replacement script.
