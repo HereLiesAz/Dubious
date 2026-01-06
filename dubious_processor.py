@@ -1,62 +1,81 @@
-import os
-import subprocess
 import argparse
-import sys
+import json
+import subprocess
 from pathlib import Path
+import sys
+import whisper
+from dubious_scoring import MoralCompass
 
-def log(message):
-    """Prints a message with a timestamp, proving we exist in linear time."""
-    print(f"[DUBIOUS] {message}")
+def log(msg):
+    print(f"[DUBIOUS CORE] {msg}")
 
-def check_gpu():
-    """Checks if we have access to a GPU, or if we are suffering on a CPU."""
-    import torch
-    if torch.cuda.is_available():
-        log(f"GPU Detected: {torch.cuda.get_device_name(0)}. fast_mode = True")
-        return True
-    else:
-        log("No GPU detected. We are running on pure silicon grit. Expect delays.")
-        return False
-
-def lobotomize_audio(input_path, output_dir):
-    """
-    Separates the soul (vocals) from the body (instruments).
-    Uses Facebook's Demucs model.
-    """
+def process_media(input_path, output_dir):
     input_file = Path(input_path)
-    if not input_file.exists():
-        log(f"Error: Input file {input_path} does not exist. Reality is broken.")
-        sys.exit(1)
-
-    log(f"Beginning separation of {input_file.name}...")
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
     
-    # We use 'htdemucs' (Hybrid Transformer) because it is faster on CPU.
-    # --two-stems=vocals tells it we only care about 'voice' vs 'everything else'.
-    cmd = [
-        "python", "-m", "demucs.separate",
-        "-n", "htdemucs",
-        "--two-stems=vocals",
-        str(input_file),
-        "-o", str(output_dir)
-    ]
+    # 1. Initialize Tools
+    log("Loading Whisper Model (base)...")
+    model = whisper.load_model("base") # 'base' is fast and runs on CPU reasonably well
+    
+    log("Calibrating Moral Compass...")
+    compass = MoralCompass()
+    
+    # 2. Transcribe
+    log(f"Transcribing {input_file.name}...")
+    result = model.transcribe(str(input_file))
+    
+    # 3. Analyze & Score
+    log("Analyzing script for sin...")
+    segments_data = []
+    
+    for seg in result["segments"]:
+        text = seg["text"].strip()
+        start = seg["start"]
+        end = seg["end"]
+        
+        # Judge the text
+        scores = compass.judge_text(text)
+        
+        # Generate Dubious alternative if necessary
+        dubious_text = text
+        if max(scores.values()) > 0:
+            dubious_text = compass.suggest_replacement(text, scores)
+            
+        segment_entry = {
+            "id": seg["id"],
+            "start_ms": int(start * 1000),
+            "end_ms": int(end * 1000),
+            "original_text": text,
+            "dubious_text": dubious_text,
+            "scores": scores,
+            "action": "replace" if max(scores.values()) > 0 else "passthrough"
+        }
+        segments_data.append(segment_entry)
 
-    try:
-        subprocess.run(cmd, check=True)
-        log("Separation complete. The subject is now divided.")
-    except subprocess.CalledProcessError as e:
-        log(f"Surgery failed: {e}")
-        sys.exit(1)
+    # 4. Generate .dps File
+    dps_data = {
+        "meta": {
+            "title": input_file.stem,
+            "duration": result["segments"][-1]["end"],
+            "version": "1.0"
+        },
+        "timeline": segments_data
+    }
+    
+    dps_path = output_dir / f"{input_file.stem}.dps"
+    with open(dps_path, 'w', encoding='utf-8') as f:
+        json.dump(dps_data, f, indent=2)
+        
+    log(f"Dubious Performance Script generated: {dps_path}")
 
 def main():
-    parser = argparse.ArgumentParser(description="Dubious Audio Processor")
-    parser.add_argument("--input", required=True, help="Path to the victim video file")
-    parser.add_argument("--output", default="separated", help="Directory to store the remains")
-    
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", required=True)
+    parser.add_argument("--output", default="output")
     args = parser.parse_args()
     
-    check_gpu()
-    lobotomize_audio(args.input, args.output)
+    process_media(args.input, args.output)
 
 if __name__ == "__main__":
     main()
-      
