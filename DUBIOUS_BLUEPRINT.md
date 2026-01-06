@@ -1,12 +1,20 @@
-# **DUBIOUS: The Reality Filter // Project Blueprint**
+# **DUBIOUS: Breaking Down Linguistic and Moral Barriers in Media // Project Blueprint**
 
-"Reality is just a suggestion. We provide the edit."
+## I. The Vision
+**Dubious** is an advanced **AI Dubbing and Prosody Transfer** platform. Its primary function is to replicate the pitch, pace, tone, and temperament of an original audio performance while altering the linguistic content.
 
-## **I. The Vision**
+While standard dubbing destroys the original performance by layering a new actor on top, **Dubious** surgically alters the existing audio reality. It uses context clues (subtitles, audio separation, spectral analysis) to ensure that when the text changes, the *emotion* remains identical.
 
-**Dubious** is not just a censorship tool; it is an active intervention in media consumption. It decouples the *intent* of a scene from its *execution*. By using AI to analyze, score, and rewrite dialogue, Dubious allows the user to act as the final editor of reality, down-mixing toxicity into palatability.
+### The Core Utility
+We currently demonstrate this engine through a **Content Adaptation** use case (often called "Censorship"), allowing users to mute or replace specific semantic triggers. However, this is merely one application of the underlying technology: **Seamless Auditory Reconstruction.**
 
 It operates on the principle of the **Sanitized Simulacrum**: We accept that the media is fake, so we might as well make it fake in a way that suits us.
+
+### The Modes
+1.  **Player Mode (The Re-Voicer):** You provide the video file. Dubious separates the stems, analyzes the actor's prosody, and generates a new performance in real-time that matches the original lip-flaps and intensity.
+2.  **Companion Mode (The Sidecar):** Syncs with external media (TV/Cinema) to provide a localized audio stream. It doesn't just "bleep" content; it *patches* the room audio with a seamless AI overdub.
+3.  **Export Mode (The Remaster):** Generates a high-quality, fully mixed audio track (EDL) where specific dialogue lines are rewritten and re-performed by the AI, ready for distribution.
+
 
 ### **The Modes**
 
@@ -167,15 +175,21 @@ def process(input\_file):
 2. **Better Voices:** Browser TTS is robotic. We should add a feature to the Backend to generate **Voice Clones** (using Coqui TTS) and pack them into the .dps file as mp3 blobs, so the phone plays high-quality acting, not a robot.  
 3. **Community Database:** A centralized Repo where users can upload/download .dps files for popular movies, creating the "Dubious Library."
 
+### Phase 2: High-Fidelity Synthesis
+Voice Cloning: Integrate Coqui XTTS or Piper to generate a "Voice Clone" blob for each speaker. The .dps file becomes a container for these custom audio assets.
+
+Prosody Matching: Use librosa in the backend to extract the F0 curve of the original line and force the TTS engine to follow that exact melodic contour.
+
+### Phase 3: Dubbing Applications
+Language Localization: Using the same engine to translate English to Spanish, maintaining the original actor's voice and emotional intensity (e.g., "DeepFake Dubbing").
+
+Dialogue Patching: Fixing mumbled lines or audio errors in post-production without bringing the actor back to the studio (ADR).
+
+The "Filter" Use Case: The current implementation—adapting content for different audiences (Kids, Sensitive Viewers) by swapping semantic triggers.
+
 ### **Phase 2: Conceptual Expansions (The "God Mode")**
 
 1. **Therapy Mode:** Instead of removing profanity, it rewrites arguments to be using "Non-Violent Communication" (NVC). It turns a toxic fight into a constructive dialogue.  
 2. **The Gaslight Feature:** A mode that subtly changes the plot. Characters who died actually survived. Endings are changed. The user experiences a Mandella Effect in real-time.  
 3. **Educational Mode:** Rewrites complex Shakespearean or scientific dialogue into "ELI5" (Explain Like I'm 5\) language for kids, while keeping the visual context.
 
-## **V. Next Actions**
-
-1. **Initialize the Git Repo** with the folder structure above.  
-2. **Paste the Code** into the respective files.  
-3. **Push to GitHub** to trigger the first Deploy Action.  
-4. **Test** with the "Jen & Az" argument clip.
