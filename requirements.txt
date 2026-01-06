@@ -1,6 +1,0 @@
-demucs
-torch
-torchaudio
-numpy
-openai-whisper
-
