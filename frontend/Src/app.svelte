@@ -1,10 +1,11 @@
 <script>
   import DubiousPlayer from './lib/DubiousPlayer.svelte';
   import DubiousCompanion from './lib/DubiousCompanion.svelte';
+  import DubiousGenerator from './lib/DubiousGenerator.svelte';
   import { exportDubTrack } from './lib/audioExport.js';
-  import { FileUp, Play, Mic, RotateCcw, Download } from 'lucide-svelte';
+  import { FileUp, Play, Mic, RotateCcw, Download, Wand2 } from 'lucide-svelte';
 
-  let mode = "select"; // select, player, companion
+  let mode = "select"; // select, player, companion, generate
   let videoFile = null;
   let scriptData = null;
 
@@ -86,8 +87,16 @@
               </div>
             </button>
           </div>
+        {:else}
+           <button on:click={() => mode = "generate"} class="w-full flex items-center justify-center gap-2 text-xs border border-dubious-gray/50 text-gray-500 px-4 py-4 hover:border-dubious-red hover:text-dubious-red transition-all duration-300 uppercase tracking-wider">
+             <Wand2 size={16} />
+             Don't have a manifest? Generate one
+           </button>
         {/if}
       </div>
+
+    {:else if mode === "generate"}
+       <DubiousGenerator />
 
     {:else if mode === "player"}
       <div class="w-full max-w-4xl animate-in fade-in slide-in-from-bottom-4 duration-500">
