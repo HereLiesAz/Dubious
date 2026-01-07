@@ -1,15 +1,35 @@
 import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import path from 'path'
+import { fileURLToPath } from 'url'
+import tailwindcss from 'tailwindcss'
+import autoprefixer from 'autoprefixer'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [svelte()],
+  root: path.resolve(__dirname, '../'), // Set root to repo root
   resolve: {
     alias: {
-      $lib: path.resolve('./Src/lib'),
+      $lib: path.resolve(__dirname, 'Src/lib'),
     },
   },
-  // Per instruction: set base to root '/'
-  base: '/',
+  css: {
+    postcss: {
+      plugins: [
+        tailwindcss({
+          config: path.resolve(__dirname, 'tailwind.config.cjs')
+        }),
+        autoprefixer,
+      ],
+    },
+  },
+  build: {
+    outDir: path.resolve(__dirname, 'dist'),
+    emptyOutDir: true,
+  },
+  // Use relative paths so it works in any subdir (like /repo-name/)
+  base: './',
 })
