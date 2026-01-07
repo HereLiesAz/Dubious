@@ -33,11 +33,13 @@ jobs:
           cache-dependency-path: frontend/package.json
 
       - name: Install Dependencies
+        # Switched from 'npm ci' to 'npm install' to allow lockfile generation on the fly.
+        # This bypasses the need for a pre-existing package-lock.json.
         run: npm install
 
       - name: Build
         run: npm run build
-        # This assumes vite.config.js is set to base: '/<repo-name>/'
+        # This assumes vite.config.js is set to base: '/'
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
