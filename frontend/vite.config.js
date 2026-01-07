@@ -16,16 +16,6 @@ export default defineConfig({
       $lib: path.resolve(__dirname, 'Src/lib')
     },
   },
-  css: {
-    postcss: {
-      plugins: [
-        tailwindcss({
-          config: path.resolve(__dirname, 'tailwind.config.cjs')
-        }),
-        autoprefixer,
-      ],
-    },
-  },
   build: {
     outDir: path.resolve(__dirname, 'dist'),
     emptyOutDir: true,
