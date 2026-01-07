@@ -1,7 +1,7 @@
 <script>
   import DubiousPlayer from './lib/DubiousPlayer.svelte';
   import DubiousCompanion from './lib/DubiousCompanion.svelte';
-  import DubiousGenerator from './lib/DubiousGenerator.svelte';
+  import DubiousGenerator from '$lib/DubiousGenerator.svelte';
   import { exportDubTrack } from './lib/audioExport.js';
   import { FileUp, Play, Mic, RotateCcw, Download, Wand2 } from 'lucide-svelte';
 
