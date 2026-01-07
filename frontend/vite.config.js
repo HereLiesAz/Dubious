@@ -10,26 +10,15 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [svelte()],
-  root: path.resolve(__dirname, '../'), // Set root to repo root
+  // root defaults to current directory (frontend)
   resolve: {
     alias: {
-      $lib: path.resolve(__dirname, 'Src/lib'),
-    },
-  },
-  css: {
-    postcss: {
-      plugins: [
-        tailwindcss({
-          config: path.resolve(__dirname, 'tailwind.config.cjs')
-        }),
-        autoprefixer,
-      ],
+      $lib: path.resolve(__dirname, 'Src/lib')
     },
   },
   build: {
     outDir: path.resolve(__dirname, 'dist'),
     emptyOutDir: true,
   },
-  // Use relative paths so it works in any subdir (like /repo-name/)
   base: './',
 })

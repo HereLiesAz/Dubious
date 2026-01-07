@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "../index.js",
+    "../index.html",
     "./Src/**/*.{svelte,js,ts,jsx,tsx}",
   ],
   theme: {
