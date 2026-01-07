@@ -228,3 +228,4 @@ analysis/
 marimo/_static/
 marimo/_lsp/
 __
+frontend/node_modules/
