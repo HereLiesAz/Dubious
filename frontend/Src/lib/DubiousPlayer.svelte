@@ -28,12 +28,12 @@
       bind:currentTime
       controls
       class="w-full bg-black"
-    />
+    ></video>
     <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-dubious-red to-transparent opacity-0 group-hover:opacity-100 transition duration-500"></div>
   </div>
 
   <div class="bg-gray-900/50 p-4 rounded-lg border border-dubious-gray/30">
-    <label class="block text-xs uppercase mb-3 text-dubious-red tracking-widest font-bold">
+    <label for="profanity-slider" class="block text-xs uppercase mb-3 text-dubious-red tracking-widest font-bold">
       Profanity Shield Level: <span class="text-white">{settings.profanity}</span>
     </label>
     <div class="relative flex items-center">
@@ -41,6 +41,7 @@
         <div class="h-full bg-dubious-red" style="width: {(settings.profanity / 5) * 100}%"></div>
       </div>
       <input
+        id="profanity-slider"
         type="range"
         min="0"
         max="5"

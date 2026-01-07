@@ -119,7 +119,7 @@
   </div>
 
   <div class="bg-gray-900/50 p-4 rounded-lg border border-dubious-gray/30 w-full">
-    <label class="block text-xs uppercase mb-3 text-dubious-red tracking-widest font-bold text-left">
+    <label for="companion-profanity" class="block text-xs uppercase mb-3 text-dubious-red tracking-widest font-bold text-left">
       Profanity Shield
     </label>
     <div class="relative flex items-center">
@@ -127,6 +127,7 @@
         <div class="h-full bg-dubious-red" style="width: {(settings.profanity / 5) * 100}%"></div>
       </div>
       <input
+        id="companion-profanity"
         type="range"
         min="0"
         max="5"
