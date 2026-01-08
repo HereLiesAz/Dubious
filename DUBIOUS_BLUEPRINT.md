@@ -26,9 +26,9 @@ It operates on the principle of the **Sanitized Simulacrum**: We accept that the
 
 ### **1\. The Backend ( The Factory )**
 
-* **Location:** GitHub Actions (Serverless, Free).  
+* **Location:** Local Python Flask Server.
 * **Role:** Heavy lifting.  
-  * **Input:** Video URL or Audio File.  
+  * **Input:** Video File (Upload).
   * **Process:**  
     1. **Transcription:** OpenAI Whisper (Speech-to-Text).  
     2. **Judgment:** Custom MoralCompass algorithm scores every sentence (0-5) on Profanity, Violence, and Sexual content.  
@@ -67,16 +67,18 @@ The "Soul" of the content. A lightweight JSON map of sin.
 │   ├── dub\_job.yml          \# Backend Automation  
 │   └── deploy\_frontend.yml  \# Frontend Deployment  
 ├── backend/  
+│   ├── server.py            \# The API (Flask)
 │   ├── dubious\_processor.py \# The Logic  
 │   ├── dubious\_scoring.py   \# The Conscience  
 │   └── requirements.txt     \# The Tools  
 ├── frontend/  
-│   ├── src/  
+│   ├── Src/
 │   │   ├── lib/  
 │   │   │   ├── DubiousPlayer.svelte  
 │   │   │   ├── DubiousCompanion.svelte  
+│   │   │   ├── DubiousGenerator.svelte
 │   │   │   └── audioExport.js  
-│   │   ├── App.svelte  
+│   │   ├── app.svelte
 │   │   └── main.js  
 │   └── package.json  
 └── README.md
