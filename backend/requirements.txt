@@ -3,3 +3,5 @@ torch
 torchaudio
 numpy
 openai-whisper
+flask
+flask-cors
