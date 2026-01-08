@@ -96,7 +96,13 @@
       </div>
 
     {:else if mode === "generate"}
-       <DubiousGenerator />
+       <DubiousGenerator on:complete={(e) => {
+          scriptData = e.detail.script;
+          if (e.detail.file) {
+            videoFile = URL.createObjectURL(e.detail.file);
+          }
+          mode = "select";
+       }} />
 
     {:else if mode === "player"}
       <div class="w-full max-w-4xl animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -114,7 +120,7 @@
   </div>
 
   {#if mode !== "select"}
-    <button on:click={() => mode = "select"} class="fixed top-24 left-6 md:top-6 md:left-auto md:right-6 flex items-center gap-2 text-xs text-gray-500 hover:text-dubious-red transition-colors opacity-50 hover:opacity-100 z-50 uppercase tracking-widest">
+    <button on:click={() => mode = "select"} class="fixed bottom-6 right-6 flex items-center gap-2 text-xs text-gray-500 hover:text-dubious-red transition-colors opacity-50 hover:opacity-100 z-50 uppercase tracking-widest bg-black/80 p-2 rounded backdrop-blur-sm border border-dubious-gray/30 hover:border-dubious-red/50">
       <RotateCcw size={14} />
       Reset System
     </button>

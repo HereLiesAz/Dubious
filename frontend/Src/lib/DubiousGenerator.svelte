@@ -11,15 +11,6 @@
   let generatedScript = null;
   let videoDuration = 0;
 
-  const steps = [
-    { pct: 10, text: "Initializing Neural Net..." },
-    { pct: 30, text: "Demixing Audio Stems..." },
-    { pct: 50, text: "Transcribing (Whisper-Base)..." },
-    { pct: 70, text: "Analyzing Prosody & Intent..." },
-    { pct: 85, text: "Injecting Dubious Hallucinations..." },
-    { pct: 100, text: "Analysis Complete." }
-  ];
-
   const handleFile = (e) => {
     const f = e.target.files[0];
     if (f && f.type.startsWith('video/')) {
@@ -35,66 +26,46 @@
     }
   };
 
-  const generate = () => {
+  const generate = async () => {
     if (!file) return;
     processing = true;
     progress = 0;
+    status = "Uploading to Factory...";
 
-    // Simulate processing
-    let stepIndex = 0;
-    const interval = setInterval(() => {
-      progress += Math.random() * 5;
+    const formData = new FormData();
+    formData.append('video', file);
 
-      // Update status text based on progress
-      if (stepIndex < steps.length - 1 && progress > steps[stepIndex + 1].pct) {
-        stepIndex++;
-        status = steps[stepIndex].text;
-      } else if (stepIndex === 0 && progress > steps[0].pct) {
-         status = steps[0].text;
-      }
+    try {
+        status = "Processing on Backend (This may take a while)...";
+        // Simulate a slow progress bar just to show activity
+        const interval = setInterval(() => {
+             if (progress < 90) progress += 1;
+        }, 500);
 
-      if (progress >= 100) {
+        const response = await fetch('/api/process', {
+            method: 'POST',
+            body: formData
+        });
+
         clearInterval(interval);
+
+        if (!response.ok) {
+            const err = await response.json();
+            throw new Error(err.error || 'Server Error');
+        }
+
+        generatedScript = await response.json();
         progress = 100;
         status = "Analysis Complete.";
-        setTimeout(finishGeneration, 500);
-      }
-    }, 150);
-  };
+        processing = false;
 
-  const finishGeneration = () => {
-    processing = false;
-
-    // Create Mock DPS
-    generatedScript = {
-      meta: {
-        title: file.name,
-        duration: videoDuration || 60, // Default if duration failed
-        version: "1.0-web-mock"
-      },
-      timeline: generateMockTimeline(videoDuration || 60)
-    };
-  };
-
-  const generateMockTimeline = (duration) => {
-    const events = [];
-    const count = Math.max(3, Math.floor(duration / 10)); // One event every 10s roughly
-
-    for (let i = 0; i < count; i++) {
-        const start = (i * 10) + 5;
-        if (start + 3 > duration) break;
-
-        events.push({
-            id: i,
-            start_ms: start * 1000,
-            end_ms: (start + 3) * 1000,
-            original_text: "[Original Audio Redacted]",
-            dubious_text: "This is a simulated hallucination.",
-            scores: { profanity: 5, violence: 0, sexual: 0 },
-            action: "replace"
-        });
+    } catch (e) {
+        console.error(e);
+        status = `Error: ${e.message}`;
+        alert(`Factory Connection Failed: ${e.message}\nEnsure backend/server.py is running on port 5000.`);
+        processing = false;
+        progress = 0;
     }
-    return events;
   };
 
   const download = () => {
@@ -104,7 +75,6 @@
     a.href = url;
     a.download = `${file.name.split('.')[0]}.dps`;
     a.click();
-    dispatch('complete', { script: generatedScript });
   };
 </script>
 
@@ -180,10 +150,12 @@
         Download .dps
       </button>
 
-      <div class="flex items-center gap-2 justify-center text-[10px] text-yellow-500 bg-yellow-500/10 p-2 rounded border border-yellow-500/20">
-        <AlertTriangle size={12} />
-        <span>Mock Generator: Simulation Mode Only</span>
-      </div>
+      <button
+        on:click={() => dispatch('complete', { script: generatedScript, file: file })}
+        class="text-xs text-gray-500 hover:text-white uppercase tracking-widest mt-4 block mx-auto transition-colors"
+      >
+        Load & Return to System
+      </button>
     </div>
   {/if}
 

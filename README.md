@@ -16,9 +16,9 @@ The system is divided into two distinct lobes:
 
 ## **Setup & Usage**
 
-### **1\. The Backend (Local Analysis)**
+### **1\. The Backend (The Factory)**
 
-If you prefer to run the surgery on your own silicon rather than GitHub's.
+The logic center of Dubious. Runs locally to process media files.
 
 **Prerequisites:**
 
@@ -30,11 +30,13 @@ If you prefer to run the surgery on your own silicon rather than GitHub's.
 cd backend  
 pip install \-r requirements.txt
 
-Operation:  
-To generate a .dps file from a video:  
-python dubious\_processor.py \--input path/to/video.mp4 \--output ../frontend/public/scripts/
+**Operation:**
+To start the API server:
+python server.py
 
-### **2\. The Frontend (The Player)**
+The server will listen on `http://127.0.0.1:5000`.
+
+### **2\. The Frontend (The Stage)**
 
 The interface for consuming the altered media.
 
